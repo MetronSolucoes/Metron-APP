@@ -34,6 +34,8 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import './assets/css/App.css';
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
