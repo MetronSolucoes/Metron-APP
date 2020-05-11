@@ -32,9 +32,6 @@ const Reports: React.FC = () => {
           <IonButton slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
           </IonButton>
-          <IonButton slot="primary">
-            <IonIcon icon={filter} />
-          </IonButton>
           <IonTitle>Relatórios</IonTitle>
         </IonToolbar>
       </IonHeader>

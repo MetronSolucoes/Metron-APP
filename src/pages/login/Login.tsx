@@ -40,7 +40,7 @@ const Login: React.FC = () => {
               </IonItem>
             </IonCol>
             <IonCol size="12" class="px-3">
-              <IonButton color="primary" mode="md" expand="block">Entrar</IonButton>
+              <IonButton routerLink='/home' color="primary" mode="md" expand="block">Entrar</IonButton>
             </IonCol>
             <IonCol size="12" class="px-3">
               <IonButton color="primary" mode="md" expand="block" fill="outline">Esqueceu sua senha?</IonButton>

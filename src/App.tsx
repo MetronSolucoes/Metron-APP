@@ -19,7 +19,7 @@ import {
   IonMenuButton
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle, book, person, people, settings, document, briefcase } from 'ionicons/icons';
+import { ellipse, square, triangle, book, person, people, settings, document, briefcase, home, exit } from 'ionicons/icons';
 import Login from './pages/login/Login';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -29,6 +29,7 @@ import Reports from './pages/reports/Reports';
 import SchedulingList from './pages/scheduling/SchedulingList';
 import ServicesList from './pages/services/ServicesList';
 import Settings from './pages/settings/Settings';
+import Home from './pages/home/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -63,6 +64,10 @@ const App: React.FC = () => (
       </IonHeader>
       <IonContent>
         <IonList>
+          <IonItem routerLink="/home">
+            <IonIcon icon={home} slot="start"></IonIcon>
+            <IonLabel>Início</IonLabel>
+          </IonItem>
           <IonItem routerLink="/schedulinglist">
             <IonIcon icon={book} slot="start"></IonIcon>
             <IonLabel>Agendamentos</IonLabel>
@@ -86,6 +91,10 @@ const App: React.FC = () => (
           <IonItem routerLink="/settings">
             <IonIcon icon={settings} slot="start"></IonIcon>
             <IonLabel>Configurações</IonLabel>
+          </IonItem>
+          <IonItem routerLink="/login">
+            <IonIcon icon={exit} slot="start"></IonIcon>
+            <IonLabel>Sair</IonLabel>
           </IonItem>
         </IonList>
       </IonContent>
@@ -115,10 +124,11 @@ const App: React.FC = () => (
           <Route path="/serviceslist" component={ServicesList} />
           <Route path="/schedulinglist" component={SchedulingList} />
           <Route path="/settings" component={Settings} />
+          <Route path="/home" component={Home} />
           <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="login" href="/login">
+          {/* <IonTabButton tab="login" href="/login">
             <IonIcon icon={triangle} />
             <IonLabel>Login</IonLabel>
           </IonTabButton>
@@ -129,7 +139,7 @@ const App: React.FC = () => (
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={square} />
             <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
+          </IonTabButton> */}
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>

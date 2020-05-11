@@ -23,7 +23,7 @@ import {
 import { walk, filter } from 'ionicons/icons';
 import { Menu } from '../../components/Menu';
 
-const Settings: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <IonPage>
 
@@ -32,7 +32,7 @@ const Settings: React.FC = () => {
           <IonButton slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
           </IonButton>
-          <IonTitle>Configurações</IonTitle>
+          <IonTitle>Início</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -42,4 +42,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings
+export default Home
