@@ -20,9 +20,7 @@ const Login: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol size="12" class="d-flex justify-content-center">
-              <IonItem>
-                <IonImg class="img-size" src="assets/icon/metron.jpg" />
-              </IonItem>
+                <IonImg class="img-size" src="assets/icon/metron.png" />
             </IonCol>
             <IonCol size="12">
               <IonText class="text-center">

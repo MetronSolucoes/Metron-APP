@@ -49,7 +49,7 @@ const SchedulingList: React.FC = () => {
           <IonCard>
             <IonRow>
               <IonCol >
-                <IonCardHeader>
+                <IonCardHeader>   
                   <IonCardTitle>João Silva</IonCardTitle>
                   <IonCardSubtitle>Corte de Barba</IonCardSubtitle>
                   <IonCardSubtitle>(14) 99999-9999</IonCardSubtitle>
