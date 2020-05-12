@@ -18,9 +18,11 @@ import {
   IonCardContent,
   IonIcon,
   IonButton,
-  IonMenuButton
+  IonMenuButton,
+  IonFab,
+  IonFabButton
 } from '@ionic/react';
-import { walk, filter } from 'ionicons/icons';
+import { walk, filter, add } from 'ionicons/icons';
 import { Menu } from '../../components/Menu';
 
 const ClientsList: React.FC = () => {
@@ -35,7 +37,7 @@ const ClientsList: React.FC = () => {
           <IonButton slot="primary">
             <IonIcon icon={filter} />
           </IonButton>
-          <IonTitle>Clientes</IonTitle>
+          <IonTitle class="text-center">Clientes</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -55,11 +57,11 @@ const ClientsList: React.FC = () => {
               </IonCol>
             </IonRow>
           </IonCard>
-          <IonRow>
-            <IonCol>
-              <IonButton shape="round">+</IonButton>
-            </IonCol>
-          </IonRow>
+          <IonFab horizontal="end" vertical="bottom">
+            <IonFabButton>
+              <IonIcon icon={add} />
+            </IonFabButton>
+          </IonFab>
         </IonGrid>
       </IonContent>
     </IonPage>

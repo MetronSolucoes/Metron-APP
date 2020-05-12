@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   IonContent,
   IonItem,
@@ -18,12 +18,17 @@ import {
   IonCardContent,
   IonIcon,
   IonButton,
-  IonMenuButton
+  IonMenuButton,
+  IonFabButton,
+  IonFab,
+  IonActionSheet
 } from '@ionic/react';
-import { walk, filter } from 'ionicons/icons';
+import { walk, filter, add, trash, create, createOutline, trashOutline } from 'ionicons/icons';
 import { Menu } from '../../components/Menu';
+import { Script } from 'vm';
 
 const SchedulingList: React.FC = () => {
+  const [showActionSheet, setShowActionSheet] = useState(false);
   return (
     <IonPage>
 
@@ -35,7 +40,7 @@ const SchedulingList: React.FC = () => {
           <IonButton slot="primary">
             <IonIcon icon={filter} />
           </IonButton>
-          <IonTitle>Agendamento</IonTitle>
+          <IonTitle class="text-center">Agendamentos</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -51,16 +56,31 @@ const SchedulingList: React.FC = () => {
                 </IonCardHeader>
                 <IonCardContent>joaosilva@gmail.com</IonCardContent>
               </IonCol>
-              <IonCol>
-                <IonButton fill="outline">Ver</IonButton>
-              </IonCol>
+              <IonFab horizontal="end">
+                <IonButton onClick={() => setShowActionSheet(true)} expand="block" fill="outline">Ver</IonButton>
+                <IonActionSheet
+                  isOpen={showActionSheet}
+                  onDidDismiss={() => setShowActionSheet(false)}
+                  buttons={[
+                  {
+                    text: 'Excluir',
+                    icon: trashOutline
+                  }, {
+                    text: 'Editar',
+                    icon: createOutline   
+                  }]}
+                >
+                </IonActionSheet>
+              </IonFab>
             </IonRow>
           </IonCard>
-          <IonRow>
-            <IonCol>
-              <IonButton shape="round">+</IonButton>
-            </IonCol>
-          </IonRow>
+
+          <IonFab horizontal="end" vertical="bottom">
+            <IonFabButton routerLink="/schedulingcreate">
+              <IonIcon icon={add} />
+            </IonFabButton>
+          </IonFab>
+
         </IonGrid>
       </IonContent>
     </IonPage>

@@ -32,7 +32,7 @@ const Settings: React.FC = () => {
           <IonButton slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
           </IonButton>
-          <IonTitle>Configurações</IonTitle>
+          <IonTitle class="text-center">Configurações</IonTitle>
         </IonToolbar>
       </IonHeader>
 

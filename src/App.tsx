@@ -27,6 +27,7 @@ import ClientsList from './pages/clients/ClientsList';
 import EmployeesList from './pages/employees/EmployeesList';
 import Reports from './pages/reports/Reports';
 import SchedulingList from './pages/scheduling/SchedulingList';
+import SchedulingCreate from './pages/scheduling/SchedulingCreate';
 import ServicesList from './pages/services/ServicesList';
 import Settings from './pages/settings/Settings';
 import Home from './pages/home/Home';
@@ -123,6 +124,7 @@ const App: React.FC = () => (
           <Route path="/reports" component={Reports} />
           <Route path="/serviceslist" component={ServicesList} />
           <Route path="/schedulinglist" component={SchedulingList} />
+          <Route path="/schedulingcreate" component={SchedulingCreate} />
           <Route path="/settings" component={Settings} />
           <Route path="/home" component={Home} />
           <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
