@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { loginUser } from '../../Firebase'
+import { registerUser } from '../../Firebase'
 import {
   IonContent,
   IonItem,
@@ -12,39 +12,43 @@ import {
   IonImg,
   IonButton,
   IonCol,
-  IonRouterLink,
   IonToast
 } from '@ionic/react'
 
-
-const Login: React.FC = () => {
-  const [showToast, setShowToast] = useState(false)
-  const [toastMessage, setToastMessage] = useState('')
+const Register: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [cpassword, setCPassword] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   const history = useHistory()
 
-  const login = async () => {
-    if (email.trim() === '' || password.trim() === '') {
+  const register = async () => {
+    if(email.trim() === '' || password.trim() === '' || cpassword.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
 
-    const res = await loginUser(email, password)
-
-    if (res) {
-      setToastMessage('Login realizado com sucesso')
-      setShowToast(true)
-      history.push('/home')
-    } else {
-      setToastMessage('Falha ao realizar login')
+    if (password !== cpassword) {
+      setToastMessage('As senhas não coincidem')
       return setShowToast(true)
     }
-  }
 
-  const forgotPassword = async () => {
-    setToastMessage('Uma nova senha foi encaminhada para o e-mail inserido.')
-    setShowToast(true)
+    if (password.length < 6) {
+      setToastMessage('A senha deve possuir no mínimo 6 caracteres')
+      return setShowToast(true)
+    }
+
+    const res = await registerUser(email, password)
+
+    if (res) {
+      setToastMessage('Cadastro realizado com sucesso')
+      setShowToast(true)
+      history.push("/home");
+    } else {
+      setToastMessage('Falha ao realizar cadastro')
+      return setShowToast(true)
+    }
   }
 
   return (
@@ -72,19 +76,30 @@ const Login: React.FC = () => {
                 <IonLabel position="floating" class="pl-2 input-text-color">Senha</IonLabel>
                 <IonInput
                   type="password"
+                  minlength={6}
                   mode="md"
                   onIonChange={(e: any) => setPassword(e.target.value)}
                   class="pl-2" />
               </IonItem>
             </IonCol>
-            <IonCol size="12" class="px-3">
-              <IonButton color="primary" mode="md" expand="block" onClick={login}>Entrar</IonButton>
+            <IonCol size="12">
+              <IonItem>
+                <IonLabel position="floating" class="pl-2 input-text-color">Confirme a senha</IonLabel>
+                <IonInput
+                  type="password"
+                  minlength={6}
+                  mode="md"
+                  onIonChange={(e: any) => setCPassword(e.target.value)}
+                  class="pl-2" />
+              </IonItem>
             </IonCol>
             <IonCol size="12" class="px-3">
-              <p>É novo aqui? <Link to="/register">Criar conta</Link></p>
+              <IonButton color="primary" mode="md" expand="block" onClick={register}>Registrar</IonButton>
             </IonCol>
             <IonCol size="12" class="px-3">
-              <IonRouterLink onClick={forgotPassword}>Esqueceu a senha?</IonRouterLink>
+              <p>Já possui uma conta? <Link to="/login">Logar</Link></p>
+            </IonCol>
+            <IonCol size="12">
               <IonToast
                 isOpen={showToast}
                 onDidDismiss={() => setShowToast(false)}
@@ -99,4 +114,4 @@ const Login: React.FC = () => {
   )
 }
 
-export default Login
+export default Register

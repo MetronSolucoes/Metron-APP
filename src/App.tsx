@@ -21,6 +21,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { book, person, people, settings, document, briefcase, home, exit } from 'ionicons/icons';
 import Login from './pages/login/Login';
+import Register from './pages/login/Register';
 import ClientsList from './pages/clients/ClientsList';
 import EmployeesList from './pages/employees/EmployeesList';
 import Reports from './pages/reports/Reports';
@@ -28,7 +29,7 @@ import SchedulingList from './pages/scheduling/SchedulingList';
 import SchedulingCreate from './pages/scheduling/SchedulingCreate';
 import ServicesList from './pages/services/ServicesList';
 import Settings from './pages/settings/Settings';
-import Home from './pages/home/Home';    
+import Home from './pages/home/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -112,6 +113,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/login" component={Login} exact={true} />
+        <Route path="/register" component={Register} />
         <Route path="/clientslist" component={ClientsList} />
         <Route path="/employeeslist" component={EmployeesList} />
         <Route path="/reports" component={Reports} />
