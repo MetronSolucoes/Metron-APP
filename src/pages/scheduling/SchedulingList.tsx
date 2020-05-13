@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import {
   IonContent,
-  IonItem,
   IonPage,
-  IonInput,
-  IonLabel,
   IonGrid,
   IonRow,
   IonCol,
@@ -21,11 +18,11 @@ import {
   IonMenuButton,
   IonFabButton,
   IonFab,
-  IonActionSheet
+  IonActionSheet,
+  IonButtons,
+  IonList
 } from '@ionic/react';
-import { walk, filter, add, trash, create, createOutline, trashOutline } from 'ionicons/icons';
-import { Menu } from '../../components/Menu';
-import { Script } from 'vm';
+import { filter, add, createOutline, trashOutline, ellipsisVertical } from 'ionicons/icons';
 
 const SchedulingList: React.FC = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
@@ -34,46 +31,54 @@ const SchedulingList: React.FC = () => {
 
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start">
+          <IonButtons slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
-          </IonButton>
-          <IonButton slot="primary">
-            <IonIcon icon={filter} />
-          </IonButton>
+          </IonButtons>
+          <IonButtons slot="primary">
+            <IonButton>
+              <IonIcon icon={filter} />
+            </IonButton>
+          </IonButtons>
           <IonTitle class="text-center">Agendamentos</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <IonGrid>
-          <IonCard>
-            <IonRow>
-              <IonCol >
-                <IonCardHeader>   
-                  <IonCardTitle>João Silva</IonCardTitle>
-                  <IonCardSubtitle>Corte de Barba</IonCardSubtitle>
-                  <IonCardSubtitle>(14) 99999-9999</IonCardSubtitle>
-                </IonCardHeader>
-                <IonCardContent>joaosilva@gmail.com</IonCardContent>
-              </IonCol>
-              <IonFab horizontal="end">
-                <IonButton onClick={() => setShowActionSheet(true)} expand="block" fill="outline">Ver</IonButton>
-                <IonActionSheet
-                  isOpen={showActionSheet}
-                  onDidDismiss={() => setShowActionSheet(false)}
-                  buttons={[
-                  {
-                    text: 'Excluir',
-                    icon: trashOutline
-                  }, {
-                    text: 'Editar',
-                    icon: createOutline   
-                  }]}
-                >
-                </IonActionSheet>
-              </IonFab>
-            </IonRow>
-          </IonCard>
+          <IonList>
+            <IonCard>
+              <IonRow>
+                <IonCol >
+                  <IonCardHeader>
+                    <IonCardTitle>João Silva</IonCardTitle>
+                    <IonCardSubtitle>Corte de Barba</IonCardSubtitle>
+                    <IonCardSubtitle>(14) 99999-9999</IonCardSubtitle>
+                  </IonCardHeader>
+                  <IonCardContent>joaosilva@gmail.com</IonCardContent>
+                </IonCol>
+                <IonFab horizontal="end" vertical="top">
+                  <IonButtons>
+                    <IonButton onClick={() => setShowActionSheet(true)}>
+                      <IonIcon icon={ellipsisVertical} />
+                    </IonButton>
+                  </IonButtons>
+                  <IonActionSheet
+                    isOpen={showActionSheet}
+                    onDidDismiss={() => setShowActionSheet(false)}
+                    buttons={[
+                      {
+                        text: 'Excluir',
+                        icon: trashOutline
+                      }, {
+                        text: 'Editar',
+                        icon: createOutline
+                      }]}
+                  >
+                  </IonActionSheet>
+                </IonFab>
+              </IonRow>
+            </IonCard>
+          </IonList>
 
           <IonFab horizontal="end" vertical="bottom">
             <IonFabButton routerLink="/schedulingcreate">

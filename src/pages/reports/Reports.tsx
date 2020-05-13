@@ -1,27 +1,13 @@
 import React from 'react';
 import {
   IonContent,
-  IonItem,
   IonPage,
-  IonInput,
-  IonLabel,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonCard,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCardContent,
-  IonIcon,
-  IonButton,
-  IonMenuButton
+  IonMenuButton,
+  IonButtons
 } from '@ionic/react';
-import { walk, filter } from 'ionicons/icons';
-import { Menu } from '../../components/Menu';
 
 const Reports: React.FC = () => {
   return (
@@ -29,9 +15,9 @@ const Reports: React.FC = () => {
 
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start">
+          <IonButtons slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
-          </IonButton>
+          </IonButtons>
           <IonTitle class="text-center">Relatórios</IonTitle>
         </IonToolbar>
       </IonHeader>

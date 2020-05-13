@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   IonContent,
-  IonItem,
   IonPage,
-  IonInput,
-  IonLabel,
   IonGrid,
   IonRow,
   IonCol,
@@ -20,48 +17,74 @@ import {
   IonButton,
   IonMenuButton,
   IonFab,
-  IonFabButton
+  IonFabButton,
+  IonButtons,
+  IonActionSheet,
+  IonList
 } from '@ionic/react';
-import { walk, filter, add } from 'ionicons/icons';
-import { Menu } from '../../components/Menu';
+import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ionicons/icons';
 
 const EmployeesList: React.FC = () => {
+  const [showActionSheet, setShowActionSheet] = useState(false);
   return (
     <IonPage>
 
       <IonHeader>
         <IonToolbar>
-          <IonButton slot="start">
+          <IonButtons slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
-          </IonButton>
-          <IonButton slot="primary">
-            <IonIcon icon={filter} />
-          </IonButton>
+          </IonButtons>
+          <IonButtons slot="primary">
+            <IonButton>
+              <IonIcon icon={filter} />
+            </IonButton>
+          </IonButtons>
           <IonTitle class="text-center">Funcionários</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <IonGrid>
-          <IonCard>
-            <IonRow>
-              <IonCol >
-                <IonCardHeader>
-                  <IonCardTitle>Luiz Gomes</IonCardTitle>
-                  <IonCardSubtitle>arbeiro aprendiz</IonCardSubtitle>
-                </IonCardHeader>
-                <IonCardContent>(14) 99999-9999</IonCardContent>
-              </IonCol>
-              <IonCol>
-                <IonButton fill="outline">Ver</IonButton>
-              </IonCol>
-            </IonRow>
-          </IonCard>
+          <IonList>
+            <IonCard>
+              <IonRow>
+                <IonCol >
+                  <IonCardHeader>
+                    <IonCardTitle>Luiz Gomes</IonCardTitle>
+                    <IonCardSubtitle>arbeiro aprendiz</IonCardSubtitle>
+                  </IonCardHeader>
+                  <IonCardContent>(14) 99999-9999</IonCardContent>
+                </IonCol>
+                <IonFab horizontal="end" vertical="top">
+                  <IonButtons>
+                    <IonButton onClick={() => setShowActionSheet(true)}>
+                      <IonIcon icon={ellipsisVertical} />
+                    </IonButton>
+                  </IonButtons>
+                  <IonActionSheet
+                    isOpen={showActionSheet}
+                    onDidDismiss={() => setShowActionSheet(false)}
+                    buttons={[
+                      {
+                        text: 'Excluir',
+                        icon: trashOutline
+                      }, {
+                        text: 'Editar',
+                        icon: createOutline
+                      }]}
+                  >
+                  </IonActionSheet>
+                </IonFab>
+              </IonRow>
+            </IonCard>
+          </IonList>
+
           <IonFab horizontal="end" vertical="bottom">
             <IonFabButton>
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>
+
         </IonGrid>
       </IonContent>
     </IonPage>
