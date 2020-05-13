@@ -19,10 +19,8 @@ import {
   IonMenuButton
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle, book, person, people, settings, document, briefcase, home, exit } from 'ionicons/icons';
+import { book, person, people, settings, document, briefcase, home, exit } from 'ionicons/icons';
 import Login from './pages/login/Login';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 import ClientsList from './pages/clients/ClientsList';
 import EmployeesList from './pages/employees/EmployeesList';
 import Reports from './pages/reports/Reports';
@@ -30,7 +28,7 @@ import SchedulingList from './pages/scheduling/SchedulingList';
 import SchedulingCreate from './pages/scheduling/SchedulingCreate';
 import ServicesList from './pages/services/ServicesList';
 import Settings from './pages/settings/Settings';
-import Home from './pages/home/Home';
+import Home from './pages/home/Home';    
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -55,9 +53,7 @@ import './assets/css/App.css';
 
 const App: React.FC = () => (
   <IonApp>
-
-
-<IonMenu side="start" content-id="main-content">
+    <IonMenu side="start" content-id="main-content">
       <IonHeader>
         <IonToolbar >
           <IonTitle>Metron</IonTitle>
@@ -114,36 +110,18 @@ const App: React.FC = () => (
       </IonContent>
     </div>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route path="/login" component={Login} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab3" component={Tab3} />
-          <Route path="/clientslist" component={ClientsList} /> 
-          <Route path="/employeeslist" component={EmployeesList} />
-          <Route path="/reports" component={Reports} />
-          <Route path="/serviceslist" component={ServicesList} />
-          <Route path="/schedulinglist" component={SchedulingList} />
-          <Route path="/schedulingcreate" component={SchedulingCreate} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/home" component={Home} />
-          <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          {/* <IonTabButton tab="login" href="/login">
-            <IonIcon icon={triangle} />
-            <IonLabel>Login</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton> */}
-        </IonTabBar>
-      </IonTabs>
+      <IonRouterOutlet>
+        <Route path="/login" component={Login} exact={true} />
+        <Route path="/clientslist" component={ClientsList} />
+        <Route path="/employeeslist" component={EmployeesList} />
+        <Route path="/reports" component={Reports} />
+        <Route path="/serviceslist" component={ServicesList} />
+        <Route path="/schedulinglist" component={SchedulingList} />
+        <Route path="/schedulingcreate" component={SchedulingCreate} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/home" component={Home} />
+        <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );

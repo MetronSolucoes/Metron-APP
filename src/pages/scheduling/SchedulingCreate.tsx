@@ -13,21 +13,15 @@ import {
     IonTitle,
     IonCard,
     IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
-    IonCardContent,
-    IonIcon,
     IonButton,
     IonMenuButton,
-    IonTabBar,
-    IonText,
     IonSelectOption,
     IonSelect,
     IonDatetime,
-    IonFab
+    IonFab,
+    IonFooter,
+    IonButtons
 } from '@ionic/react';
-import { walk, filter } from 'ionicons/icons';
-import { Menu } from '../../components/Menu';
 
 const SchedulingCreate: React.FC = () => {
     return (
@@ -35,9 +29,9 @@ const SchedulingCreate: React.FC = () => {
 
             <IonHeader>
                 <IonToolbar>
-                    <IonButton slot="start">
+                    <IonButtons slot="start">
                         <IonMenuButton auto-hide="false"></IonMenuButton>
-                    </IonButton>
+                    </IonButtons>
                     <IonTitle class="text-center">Agendar</IonTitle>
                 </IonToolbar>
             </IonHeader>
@@ -82,9 +76,11 @@ const SchedulingCreate: React.FC = () => {
                             </IonCol>
                         </IonRow>
                     </IonCard>
+
                     <IonFab horizontal="end" vertical="bottom">
                         <IonButton routerLink="/schedulingList" shape="round">Agendar</IonButton>
                     </IonFab>
+
                 </IonGrid>
             </IonContent>
         </IonPage>
