@@ -80,11 +80,11 @@ const ClientsList: React.FC = () => {
           </IonList>
 
           <IonFab horizontal="end" vertical="bottom">
-            <IonFabButton>
+            <IonFabButton routerLink="/clients/new">
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>
-          
+
         </IonGrid>
       </IonContent>
     </IonPage>
