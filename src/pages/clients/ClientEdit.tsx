@@ -22,17 +22,17 @@ import {
   IonToast
 } from '@ionic/react'
 
-const ClientNew: React.FC = () => {
+const ClientEdit: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
-  const [cpf, setCpf] = useState('')
+  const [firstName, setFirstName] = useState('João')
+  const [lastName, setLastName] = useState('Silva')
+  const [phone, setPhone] = useState('(14) 99999-9999')
+  const [email, setEmail] = useState('joaosilva@gmail.com')
+  const [cpf, setCpf] = useState('47726598704')
   const history = useHistory()
 
-  const create = () => {
+  const edit = () => {
     if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '' || cpf.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
@@ -48,7 +48,7 @@ const ClientNew: React.FC = () => {
       return setShowToast(true)
     }
 
-    setToastMessage('Cliente cadastrado com sucesso')
+    setToastMessage('Cliente atualizado com sucesso')
     setShowToast(true)
     history.push('/clientslist')
   }
@@ -60,7 +60,7 @@ const ClientNew: React.FC = () => {
               <IonButtons slot="start">
                   <IonMenuButton auto-hide="false"></IonMenuButton>
               </IonButtons>
-              <IonTitle class="text-center">Cadastrar Cliente</IonTitle>
+              <IonTitle class="text-center">Editar Cliente</IonTitle>
           </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -74,8 +74,8 @@ const ClientNew: React.FC = () => {
                     <IonInput
                       type="text"
                       mode="md"
-                      required={true}
                       class="pl-2"
+                      value={firstName}
                       placeholder="João"
                       onIonChange={(e: any) => setFirstName(e.target.value)} />
                   </IonItem>
@@ -86,8 +86,8 @@ const ClientNew: React.FC = () => {
                     <IonInput
                       type="text"
                       mode="md"
-                      required={true}
                       class="pl-2"
+                      value={lastName}
                       placeholder="Bueno"
                       onIonChange={(e: any) => setLastName(e.target.value)} />
                   </IonItem>
@@ -98,8 +98,8 @@ const ClientNew: React.FC = () => {
                     <IonInput
                       type="email"
                       mode="md"
-                      required={true}
                       class="pl-2"
+                      value={email}
                       placeholder="joao.bueno@example.com"
                       onIonChange={(e: any) => setEmail(e.target.value)} />
                   </IonItem>
@@ -110,8 +110,8 @@ const ClientNew: React.FC = () => {
                     <IonInput
                       type="email"
                       mode="md"
-                      required={true}
                       class="pl-2"
+                      value={cpf}
                       placeholder="47045567814"
                       onIonChange={(e: any) => setCpf(e.target.value)} />
                   </IonItem>
@@ -122,8 +122,8 @@ const ClientNew: React.FC = () => {
                     <IonInput
                       type="tel"
                       mode="md"
-                      required={true}
                       class="pl-2"
+                      value={phone}
                       inputMode="tel"
                       placeholder="(14) 99999-9999"
                       onIonChange={(e: any) => setPhone(e.target.value)} />
@@ -133,7 +133,7 @@ const ClientNew: React.FC = () => {
             </IonCardHeader>
           </IonCard>
          <IonFab horizontal="end" vertical="bottom">
-            <IonButton onClick={create} shape="round">Cadastrar</IonButton>
+            <IonButton onClick={edit} shape="round">Salvar</IonButton>
         </IonFab>
         </IonGrid>
         <IonToast
@@ -147,4 +147,4 @@ const ClientNew: React.FC = () => {
   )
 }
 
-export default ClientNew
+export default ClientEdit

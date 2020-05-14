@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import {
   IonContent,
   IonPage,
@@ -12,6 +13,7 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonToast,
   IonCardContent,
   IonIcon,
   IonButton,
@@ -25,7 +27,20 @@ import {
 import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ionicons/icons';
 
 const ClientsList: React.FC = () => {
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const history = useHistory()
+
+  const edit = () => {
+    history.push('/clients/edit')
+  }
+
+  const destroy = () => {
+    setToastMessage('Cliente excluído com sucesso')
+    setShowToast(true)
+  }
+
   return (
     <IonPage>
 
@@ -67,9 +82,15 @@ const ClientsList: React.FC = () => {
                     buttons={[
                       {
                         text: 'Excluir',
-                        icon: trashOutline
+                        icon: trashOutline,
+                        handler: () => {
+                          destroy()
+                        }
                       }, {
                         text: 'Editar',
+                        handler: () => {
+                          edit()
+                        },
                         icon: createOutline
                       }]}
                   >
@@ -86,6 +107,12 @@ const ClientsList: React.FC = () => {
           </IonFab>
 
         </IonGrid>
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={2000}
+        />
       </IonContent>
     </IonPage>
   );
