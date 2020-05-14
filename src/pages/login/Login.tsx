@@ -35,7 +35,7 @@ const Login: React.FC = () => {
     if (res) {
       setToastMessage('Login realizado com sucesso')
       setShowToast(true)
-      history.push('/home')
+      history.push('/schedulinglist')
     } else {
       setToastMessage('Falha ao realizar login')
       return setShowToast(true)
