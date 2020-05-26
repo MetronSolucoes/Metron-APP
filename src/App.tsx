@@ -65,10 +65,10 @@ const App: React.FC = () => (
       </IonHeader>
       <IonContent>
         <IonList>
-          <IonItem routerLink="/home">
+          {/* <IonItem routerLink="/home">
             <IonIcon icon={home} slot="start"></IonIcon>
             <IonLabel>Início</IonLabel>
-          </IonItem>
+          </IonItem> */}
           <IonItem routerLink="/schedulinglist">
             <IonIcon icon={book} slot="start"></IonIcon>
             <IonLabel>Agendamentos</IonLabel>
