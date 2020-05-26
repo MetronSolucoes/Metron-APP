@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   IonContent,
   IonPage,
@@ -9,6 +10,7 @@ import {
   IonToolbar,
   IonTitle,
   IonCard,
+  IonToast,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
@@ -25,10 +27,22 @@ import {
 import { filter, add, createOutline, trashOutline, ellipsisVertical } from 'ionicons/icons';
 
 const SchedulingList: React.FC = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('')
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const history = useHistory()
+
+  const edit = () => {
+    history.push('/schedulingedit')
+  }
+
+  const destroy = () => {
+    setToastMessage('Agendamento excluído com sucesso')
+    setShowToast(true)
+  }
+
   return (
     <IonPage>
-
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -42,7 +56,6 @@ const SchedulingList: React.FC = () => {
           <IonTitle class="text-center">Agendamentos</IonTitle>
         </IonToolbar>
       </IonHeader>
-
       <IonContent>
         <IonGrid>
           <IonList>
@@ -68,10 +81,16 @@ const SchedulingList: React.FC = () => {
                     buttons={[
                       {
                         text: 'Excluir',
-                        icon: trashOutline
+                        icon: trashOutline,
+                        handler: () => {
+                          destroy()
+                        }
                       }, {
                         text: 'Editar',
-                        icon: createOutline
+                        icon: createOutline,
+                        handler: () => {
+                          edit()
+                        }
                       }]}
                   >
                   </IonActionSheet>
@@ -79,14 +98,18 @@ const SchedulingList: React.FC = () => {
               </IonRow>
             </IonCard>
           </IonList>
-
           <IonFab horizontal="end" vertical="bottom">
             <IonFabButton routerLink="/schedulingcreate">
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>
-
         </IonGrid>
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={2000}
+        />
       </IonContent>
     </IonPage>
   );
