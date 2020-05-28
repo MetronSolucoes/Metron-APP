@@ -35,7 +35,7 @@ const EmployeesList: React.FC = () => {
             <IonMenuButton auto-hide="false"></IonMenuButton>
           </IonButtons>
           <IonButtons slot="primary">
-            <IonButton>
+            <IonButton routerLink="/employeesfilter">
               <IonIcon icon={filter} />
             </IonButton>
           </IonButtons>
