@@ -82,7 +82,7 @@ const ServicesList: React.FC = () => {
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>
-          
+
         </IonGrid>
       </IonContent>
     </IonPage>

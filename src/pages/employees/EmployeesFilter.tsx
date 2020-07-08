@@ -50,9 +50,9 @@ const EmployeesFilter: React.FC = () => {
                 <IonGrid>
                     <IonCard>
                         <IonRow>
-                            <IonCol> 
+                            <IonCol>
                                 <IonCardHeader>
-                                    <IonItem>  
+                                    <IonItem>
                                         <IonLabel position="floating">Nome</IonLabel>
                                         <IonInput></IonInput>
                                     </IonItem>
@@ -63,14 +63,14 @@ const EmployeesFilter: React.FC = () => {
                                     <IonItem>
                                         <IonLabel position="floating">CPF</IonLabel>
                                         <IonInput></IonInput>
-                                    </IonItem>                                   
+                                    </IonItem>
                                 </IonCardHeader>
                             </IonCol>
                         </IonRow>
                     </IonCard>
 
                     <IonFab horizontal="end" vertical="bottom">
-                        <IonButton shape="round">
+                        <IonButton shape="round" routerLink="/employeeslist">
                            <IonLabel>FILTRAR</IonLabel>
                         </IonButton>
                     </IonFab>

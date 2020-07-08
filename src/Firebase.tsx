@@ -14,8 +14,8 @@ firebase.initializeApp(config)
 
 export async function loginUser(email: string, password: string) {
   try {
-    const res = await firebase.auth().signInWithEmailAndPassword(email, password)
-    console.log(res)
+    // const res = await firebase.auth().signInWithEmailAndPassword(email, password)
+    // console.log(res)
     return true
   } catch (error) {
     console.log(error)
@@ -25,9 +25,9 @@ export async function loginUser(email: string, password: string) {
 
 export async function registerUser(email: string, password: string) {
   try {
-    const res = await firebase.auth().createUserWithEmailAndPassword(email, password)
+    //const res = await firebase.auth().createUserWithEmailAndPassword(email, password)
     return true
-  } catch(error) {
+  } catch (error) {
     console.log(error)
     return false
   }

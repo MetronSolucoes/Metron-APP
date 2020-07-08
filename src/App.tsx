@@ -26,6 +26,8 @@ import ClientsList from './pages/clients/ClientsList';
 import ClientNew from './pages/clients/ClientNew';
 import ClientEdit from './pages/clients/ClientEdit';
 import EmployeesList from './pages/employees/EmployeesList';
+import EmployeNew from './pages/employees/EmployeNew';
+import EmployeEdit from './pages/employees/EmployeEdit';
 import EmployeesFilter from './pages/employees/EmployeesFilter';
 import Reports from './pages/reports/Reports';
 import SchedulingList from './pages/scheduling/SchedulingList';
@@ -122,6 +124,8 @@ const App: React.FC = () => (
         <Route path="/clients/new" component={ClientNew} />
         <Route path="/clients/edit" component={ClientEdit} />
         <Route path="/employeeslist" component={EmployeesList} />
+        <Route path="/employes/new" component={EmployeNew} />
+        <Route path="/employes/edit" component={EmployeEdit} />
         <Route path="/employeesfilter" component={EmployeesFilter} />
         <Route path="/reports" component={Reports} />
         <Route path="/serviceslist" component={ServicesList} />

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import {
   IonContent,
   IonPage,
   IonGrid,
   IonRow,
+  IonToast,
   IonCol,
   IonHeader,
   IonToolbar,
@@ -26,6 +28,19 @@ import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ioni
 
 const EmployeesList: React.FC = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
+  const history = useHistory()
+
+  const edit = () => {
+    history.push('/employes/edit')
+  }
+
+  const destroy = () => {
+    setToastMessage('Funcionário excluído com sucesso')
+    setShowToast(true)
+  }
+
   return (
     <IonPage>
 
@@ -67,10 +82,16 @@ const EmployeesList: React.FC = () => {
                     buttons={[
                       {
                         text: 'Excluir',
-                        icon: trashOutline
+                        icon: trashOutline,
+                        handler: () => {
+                          destroy()
+                        }
                       }, {
                         text: 'Editar',
-                        icon: createOutline
+                        icon: createOutline,
+                        handler: () => {
+                          edit()
+                        }
                       }]}
                   >
                   </IonActionSheet>
@@ -80,12 +101,18 @@ const EmployeesList: React.FC = () => {
           </IonList>
 
           <IonFab horizontal="end" vertical="bottom">
-            <IonFabButton>
+            <IonFabButton routerLink="/employes/new">
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>
 
         </IonGrid>
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={2000}
+        />
       </IonContent>
     </IonPage>
   );
