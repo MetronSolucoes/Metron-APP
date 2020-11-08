@@ -16,7 +16,6 @@ import {
   IonToast
 } from '@ionic/react'
 
-
 const Login: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
