@@ -15,37 +15,58 @@ import {
   IonRouterLink,
   IonToast
 } from '@ionic/react'
+import axios from "axios";
 
+function validateEmail(email: string) {
+  const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
+  return re.test(String(email).toLowerCase());
+}
 
 const Login: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const history = useHistory()
 
-  const login = async () => {
-    if (email.trim() === '' || password.trim() === '') {
-      setToastMessage('Preencha todos os campos')
-      return setShowToast(true)
+  const history = useHistory();
+  const [email, setEmail] = useState<string>("admin@metron.com");
+  const [password, setPassword] = useState<string>("mudar123");
+  const [iserror, setIserror] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const handleLogin = () => {
+    if (!email) {
+        setToastMessage("Please enter a valid email");
+        setIserror(true);
+        return setShowToast(true)
+    }
+    if (validateEmail(email) === false) {
+        setToastMessage("Your email is invalid");
+        setIserror(true);
+        return setShowToast(true)
     }
 
-    const res = await loginUser(email, password)
-
-    if (res) {
-      setToastMessage('Login realizado com sucesso')
-      setShowToast(true)
-      history.push('/schedulinglist')
-    } else {
-      setToastMessage('Falha ao realizar login')
-      return setShowToast(true)
+    if (!password || password.length < 6) {
+        setToastMessage("Please enter your password");
+        setIserror(true);
+        return setShowToast(true)
     }
-  }
 
-  const forgotPassword = async () => {
-    setToastMessage('Uma nova senha foi encaminhada para o e-mail inserido.')
-    setShowToast(true)
-  }
+    const loginData = {
+        "email": email,
+        "password": password
+    }
+
+    const api = axios.create({
+        baseURL: `https://metron-api.herokuapp.com/api/v1/backoffice/`
+    })
+
+    api.post("/authentication", loginData)
+        .then(res => {             
+            history.push("/schedulinglist/" + email);
+         })
+         .catch(error=>{
+            setToastMessage("Auth failure! Please create an account");
+            setIserror(true)
+         })
+  };
 
   return (
     <IonPage>
@@ -60,11 +81,14 @@ const Login: React.FC = () => {
                 <IonLabel position="floating" class="pl-2 input-text-color">E-mail</IonLabel>
                 <IonInput
                   type="email"
-                  mode="md"
-                  class="pl-2"
-                  placeholder="email@example.com"
-                  onIonChange={(e: any) => setEmail(e.target.value)}
-                  inputmode="email" />
+                  value={email}
+                  onIonChange={(e) => setEmail(e.detail.value!)}
+                  // mode="md"
+                  // class="pl-2"
+                  // placeholder="email@example.com"
+                  // onIonChange={(e: any) => setEmail(e.target.value)}
+                  // inputmode="email" 
+                  />
               </IonItem>
             </IonCol>
             <IonCol size="12">
@@ -72,18 +96,21 @@ const Login: React.FC = () => {
                 <IonLabel position="floating" class="pl-2 input-text-color">Senha</IonLabel>
                 <IonInput
                   type="password"
-                  mode="md"
-                  onIonChange={(e: any) => setPassword(e.target.value)}
-                  class="pl-2" />
+                  value={password}
+                  onIonChange={(e) => setPassword(e.detail.value!)}
+                  // mode="md"
+                  // onIonChange={(e: any) => setPassword(e.target.value)}
+                  // class="pl-2" 
+                  />
               </IonItem>
             </IonCol>
             <IonCol size="12" class="px-3">
-              <IonButton color="primary" mode="md" expand="block" onClick={login}>Entrar</IonButton>
+              <IonButton color="primary" mode="md" expand="block" onClick={handleLogin}>Entrar</IonButton>
             </IonCol>
             <IonCol size="12" class="px-3">
               <p>É novo aqui? <Link to="/register">Criar conta</Link></p>
             </IonCol>
-            <IonCol size="12" class="px-3">
+            {/* <IonCol size="12" class="px-3">
               <IonRouterLink onClick={forgotPassword}>Esqueceu a senha?</IonRouterLink>
               <IonToast
                 isOpen={showToast}
@@ -91,7 +118,7 @@ const Login: React.FC = () => {
                 message={toastMessage}
                 duration={2000}
               />
-            </IonCol>
+            </IonCol> */}
           </IonRow>
         </IonGrid>
       </IonContent>

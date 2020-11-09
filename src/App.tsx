@@ -88,14 +88,14 @@ const App: React.FC = () => (
             <IonIcon icon={briefcase} slot="start"></IonIcon>
             <IonLabel>Serviços</IonLabel>
           </IonItem>
-          <IonItem routerLink="/reports">
+          {/* <IonItem routerLink="/reports">
             <IonIcon icon={document} slot="start"></IonIcon>
             <IonLabel>Relatórios</IonLabel>
           </IonItem>
           <IonItem routerLink="/settings">
             <IonIcon icon={settings} slot="start"></IonIcon>
             <IonLabel>Configurações</IonLabel>
-          </IonItem>
+          </IonItem> */}
           <IonItem routerLink="/login">
             <IonIcon icon={exit} slot="start"></IonIcon>
             <IonLabel>Sair</IonLabel>
