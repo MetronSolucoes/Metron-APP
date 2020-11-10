@@ -1,16 +1,14 @@
 import api from '../../api';
-import humps from 'humps';
 
 import { AUTH_TOKEN } from '../../constants'
-import { useHistory } from 'react-router-dom'
+import history from '../../history'
 
-const history = useHistory()
 
 const metronAPI = api.create('metron', false)
 
 const login = async (data: any) => {
     const response = await metronAPI.post('/authentication', data)
-    const token = response.data.authToken
+    const token = response.data.auth_token
 
     setToken(token)
 
@@ -31,11 +29,13 @@ const logout = () => {
     localStorage.removeItem(AUTH_TOKEN)
 }
 
+// Este metodo precisa ser ajustado
 const getUserIdFromToken = () => {
     const token = getToken()
-    const payload = humps.camelizeKeys(JSON.parse(atob(token.split('.')[1])))
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    let keys = Object.keys(payload)
   
-    return payload.userID
+    // return payload.userID
 }
 
 const isAuthenticated = () => {

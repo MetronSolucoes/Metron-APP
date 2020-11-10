@@ -1,7 +1,7 @@
 import { AUTH_TOKEN } from './constants'
 const env = 'development'
 
-export const getBaseUrl = (project) => envsBaseUrl[project][env]
+export const getBaseUrl = (project: string) => envsBaseUrl['metron']['development']
 
 const envsBaseUrl = {
   metron: {

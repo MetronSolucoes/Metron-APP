@@ -16,6 +16,8 @@ import {
   IonToast
 } from '@ionic/react'
 
+import * as service from '../../service/index'
+
 const Login: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
@@ -29,13 +31,12 @@ const Login: React.FC = () => {
       return setShowToast(true)
     }
 
-    const res = await loginUser(email, password)
-
-    if (res) {
+    try {
+      await service.metron.auth.login({email: email, password: password})
       setToastMessage('Login realizado com sucesso')
       setShowToast(true)
       history.push('/schedulinglist')
-    } else {
+    } catch (e) {
       setToastMessage('Falha ao realizar login')
       return setShowToast(true)
     }

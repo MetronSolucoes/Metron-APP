@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
   IonPage,
@@ -23,8 +23,25 @@ import {
 } from '@ionic/react';
 import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ionicons/icons';
 
+import * as service from '../../service/index'
+
 const ServicesList: React.FC = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [services, setServices] = useState([])
+
+  useEffect(() => {
+    const getServices = async () => {
+      let response = await service.metron.service.get({serviceId: '', page: '1', perPage: '100'})
+      setServices(response && response.data && response.data.services)
+    }
+    
+    getServices()
+  }, [])
+
+  console.log(services)
+
+
   return (
     <IonPage>
 
@@ -45,36 +62,39 @@ const ServicesList: React.FC = () => {
       <IonContent>
         <IonGrid>
           <IonList>
-            <IonCard>
-              <IonRow>
-                <IonCol >
-                  <IonCardHeader>
-                    <IonCardTitle>Corte de Barba</IonCardTitle>
-                    <IonCardSubtitle>30 minutos</IonCardSubtitle>
-                  </IonCardHeader>
-                </IonCol>
-                <IonFab horizontal="end" vertical="top">
-                  <IonButtons>
-                    <IonButton onClick={() => setShowActionSheet(true)}>
-                      <IonIcon icon={ellipsisVertical} />
-                    </IonButton>
-                  </IonButtons>
-                  <IonActionSheet
-                    isOpen={showActionSheet}
-                    onDidDismiss={() => setShowActionSheet(false)}
-                    buttons={[
-                      {
-                        text: 'Excluir',
-                        icon: trashOutline
-                      }, {
-                        text: 'Editar',
-                        icon: createOutline
-                      }]}
-                  >
-                  </IonActionSheet>
-                </IonFab>
-              </IonRow>
-            </IonCard>
+            {services && services.map((service) => (
+              <IonCard key={service.id}>
+                <IonRow>
+                  <IonCol >
+                    <IonCardHeader>
+                      <IonCardTitle>{service.name}</IonCardTitle>
+                      <IonCardSubtitle>{service.duration} minutos</IonCardSubtitle>
+                    </IonCardHeader>
+                  </IonCol>
+                  <IonFab horizontal="end" vertical="top">
+                    <IonButtons>
+                      <IonButton onClick={() => setShowActionSheet(true)}>
+                        <IonIcon icon={ellipsisVertical} />
+                      </IonButton>
+                    </IonButtons>
+                    <IonActionSheet
+                      isOpen={showActionSheet}
+                      onDidDismiss={() => setShowActionSheet(false)}
+                      buttons={[
+                        {
+                          text: 'Excluir',
+                          icon: trashOutline
+                        }, {
+                          text: 'Editar',
+                          icon: createOutline
+                        }]}
+                    >
+                    </IonActionSheet>
+                  </IonFab>
+                </IonRow>
+              </IonCard>
+            ))}
+          
           </IonList>
 
           <IonFab horizontal="end" vertical="bottom">
