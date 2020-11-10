@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import {
   IonContent,
@@ -26,11 +26,25 @@ import {
 } from '@ionic/react';
 import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ionicons/icons';
 
+import * as service from '../../service/index'
+
 const ClientsList: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const [customers, setCustomers] = useState([])
   const history = useHistory()
+
+  useEffect(() => {
+    const getCustomers = async () => {
+      let response = await service.metron.customer.get({customerId: '', page: '1', perPage: '100'})
+      setCustomers(response && response.data && response.data.customers)
+    }
+    
+    getCustomers()
+  }, [])
+
+  console.log(customers)
 
   const edit = () => {
     history.push('/clients/edit')
@@ -61,43 +75,45 @@ const ClientsList: React.FC = () => {
       <IonContent>
         <IonGrid>
           <IonList>
-            <IonCard>
-              <IonRow>
-                <IonCol >
-                  <IonCardHeader>
-                    <IonCardTitle>João Silva</IonCardTitle>
-                    <IonCardSubtitle>(14) 99999-9999</IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent>joaosilva@gmail.com</IonCardContent>
-                </IonCol>
-                <IonFab horizontal="end" vertical="top">
-                  <IonButtons>
-                    <IonButton onClick={() => setShowActionSheet(true)}>
-                      <IonIcon icon={ellipsisVertical} />
-                    </IonButton>
-                  </IonButtons>
-                  <IonActionSheet
-                    isOpen={showActionSheet}
-                    onDidDismiss={() => setShowActionSheet(false)}
-                    buttons={[
-                      {
-                        text: 'Excluir',
-                        icon: trashOutline,
-                        handler: () => {
-                          destroy()
-                        }
-                      }, {
-                        text: 'Editar',
-                        handler: () => {
-                          edit()
-                        },
-                        icon: createOutline
-                      }]}
-                  >
-                  </IonActionSheet>
-                </IonFab>
-              </IonRow>
-            </IonCard>
+            {customers && customers.map((customer) => (
+              <IonCard key={customer.id}>
+                <IonRow>
+                  <IonCol >
+                    <IonCardHeader>
+                      <IonCardTitle>{customer.name} {customer.last_name}</IonCardTitle>
+                      <IonCardSubtitle>{customer.phone}</IonCardSubtitle>
+                    </IonCardHeader>
+                    <IonCardContent>{customer.email}</IonCardContent>
+                  </IonCol>
+                  <IonFab horizontal="end" vertical="top">
+                    <IonButtons>
+                      <IonButton onClick={() => setShowActionSheet(true)}>
+                        <IonIcon icon={ellipsisVertical} />
+                      </IonButton>
+                    </IonButtons>
+                    <IonActionSheet
+                      isOpen={showActionSheet}
+                      onDidDismiss={() => setShowActionSheet(false)}
+                      buttons={[
+                        {
+                          text: 'Excluir',
+                          icon: trashOutline,
+                          handler: () => {
+                            destroy()
+                          }
+                        }, {
+                          text: 'Editar',
+                          handler: () => {
+                            edit()
+                          },
+                          icon: createOutline
+                        }]}
+                    >
+                    </IonActionSheet>
+                  </IonFab>
+                </IonRow>
+              </IonCard>
+            ))}
           </IonList>
 
           <IonFab horizontal="end" vertical="bottom">

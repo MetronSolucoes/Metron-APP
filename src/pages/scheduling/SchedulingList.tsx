@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   IonContent,
@@ -26,11 +26,25 @@ import {
 } from '@ionic/react';
 import { filter, add, createOutline, trashOutline, ellipsisVertical } from 'ionicons/icons';
 
+import * as service from '../../service/index'
+
 const SchedulingList: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('')
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const [schedulings, setSchedulings] = useState([])
   const history = useHistory()
+
+  useEffect(() => {
+    const getSchedulings = async () => {
+      let response = await service.metron.scheduling.get({schedulingId: '', page: '1', perPage: '100'})
+      setSchedulings(response && response.data && response.data.schedulings)
+    }
+    
+    getSchedulings()
+  }, [])
+
+  console.log(schedulings)
 
   const edit = () => {
     history.push('/schedulingedit')
@@ -59,44 +73,46 @@ const SchedulingList: React.FC = () => {
       <IonContent>
         <IonGrid>
           <IonList>
-            <IonCard>
-              <IonRow>
-                <IonCol >
-                  <IonCardHeader>
-                    <IonCardTitle>João Silva</IonCardTitle>
-                    <IonCardSubtitle>Corte de Barba</IonCardSubtitle>
-                    <IonCardSubtitle>(14) 99999-9999</IonCardSubtitle>
-                  </IonCardHeader>
-                  <IonCardContent>joaosilva@gmail.com</IonCardContent>
-                </IonCol>
-                <IonFab horizontal="end" vertical="top">
-                  <IonButtons>
-                    <IonButton onClick={() => setShowActionSheet(true)}>
-                      <IonIcon icon={ellipsisVertical} />
-                    </IonButton>
-                  </IonButtons>
-                  <IonActionSheet
-                    isOpen={showActionSheet}
-                    onDidDismiss={() => setShowActionSheet(false)}
-                    buttons={[
-                      {
-                        text: 'Excluir',
-                        icon: trashOutline,
-                        handler: () => {
-                          destroy()
-                        }
-                      }, {
-                        text: 'Editar',
-                        icon: createOutline,
-                        handler: () => {
-                          edit()
-                        }
-                      }]}
-                  >
-                  </IonActionSheet>
-                </IonFab>
-              </IonRow>
-            </IonCard>
+            {schedulings && schedulings.map((scheduling) => (
+              <IonCard key={scheduling.id}>
+                <IonRow>
+                  <IonCol >
+                    <IonCardHeader>
+                      <IonCardTitle>{scheduling.customer.name}</IonCardTitle>
+                      <IonCardSubtitle>{scheduling.service.name}</IonCardSubtitle>
+                      <IonCardSubtitle>{scheduling.customer.phone}</IonCardSubtitle>
+                    </IonCardHeader>
+                    <IonCardContent>{scheduling.customer.email}</IonCardContent>
+                  </IonCol>
+                  <IonFab horizontal="end" vertical="top">
+                    <IonButtons>
+                      <IonButton onClick={() => setShowActionSheet(true)}>
+                        <IonIcon icon={ellipsisVertical} />
+                      </IonButton>
+                    </IonButtons>
+                    <IonActionSheet
+                      isOpen={showActionSheet}
+                      onDidDismiss={() => setShowActionSheet(false)}
+                      buttons={[
+                        {
+                          text: 'Excluir',
+                          icon: trashOutline,
+                          handler: () => {
+                            destroy()
+                          }
+                        }, {
+                          text: 'Editar',
+                          icon: createOutline,
+                          handler: () => {
+                            edit()
+                          }
+                        }]}
+                    >
+                    </IonActionSheet>
+                  </IonFab>
+                </IonRow>
+              </IonCard>
+            ))}
           </IonList>
           <IonFab horizontal="end" vertical="bottom">
             <IonFabButton routerLink="/schedulingcreate">

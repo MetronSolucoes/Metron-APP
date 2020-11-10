@@ -98,7 +98,7 @@ const ServicesList: React.FC = () => {
           </IonList>
 
           <IonFab horizontal="end" vertical="bottom">
-            <IonFabButton>
+            <IonFabButton routerLink="/services/new">
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>

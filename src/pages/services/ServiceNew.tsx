@@ -22,30 +22,37 @@ import {
   IonToast
 } from '@ionic/react'
 
+import * as service from '../../service/index'
+
 const EmployeNew: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [office, setOffice] = useState('')
-  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [duration, setDuration] = useState('')
   const history = useHistory()
 
   const create = () => {
-    if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '' || office.trim() === '') {
+    if (name.trim() === '' || description.trim() === '' || duration.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
 
-    if (phone.trim().length < 14 || phone.trim().length > 15) {
-      setToastMessage('Telefone inválido')
-      return setShowToast(true)
+    const params = {
+      name: name,
+      description: description,
+      duration: duration
     }
 
-    setToastMessage('Funcionário cadastrado com sucesso')
-    setShowToast(true)
-    history.push('/employeeslist')
+    //let response = await service.metron.service.post(params)
+
+    //console.log(Response)
+
+    //if(response.code == 200) {
+    //  setToastMessage('Serviço cadastrado com sucesso')
+    //  setShowToast(true)
+    //  history.push('/serviceslist')
+    //}
   }
 
   return (
@@ -55,7 +62,7 @@ const EmployeNew: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton auto-hide="false"></IonMenuButton>
           </IonButtons>
-          <IonTitle class="text-center">Cadastrar Funcionário</IonTitle>
+          <IonTitle class="text-center">Cadastrar Serviço</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -71,57 +78,32 @@ const EmployeNew: React.FC = () => {
                       mode="md"
                       required={true}
                       class="pl-2"
-                      placeholder="João"
-                      onIonChange={(e: any) => setFirstName(e.target.value)} />
+                      placeholder="Corte de cabelo"
+                      onIonChange={(e: any) => setName(e.target.value)} />
                   </IonItem>
                 </IonCol>
                 <IonCol size="12">
                   <IonItem>
-                    <IonLabel position="floating" class="input-text-color">Sobrenome</IonLabel>
+                    <IonLabel position="floating" class="input-text-color">Descrição</IonLabel>
                     <IonInput
                       type="text"
                       mode="md"
                       required={true}
                       class="pl-2"
-                      placeholder="Bueno"
-                      onIonChange={(e: any) => setLastName(e.target.value)} />
+                      placeholder="Corta o cabelo"
+                      onIonChange={(e: any) => setDescription(e.target.value)} />
                   </IonItem>
                 </IonCol>
                 <IonCol size="12">
                   <IonItem>
-                    <IonLabel position="floating" class="input-text-color">E-mail</IonLabel>
+                    <IonLabel position="floating" class="input-text-color">Duração(em minutos)</IonLabel>
                     <IonInput
-                      type="email"
+                      type="number"
                       mode="md"
                       required={true}
                       class="pl-2"
-                      placeholder="joao.bueno@example.com"
-                      onIonChange={(e: any) => setEmail(e.target.value)} />
-                  </IonItem>
-                </IonCol>
-                <IonCol size="12">
-                  <IonItem>
-                    <IonLabel position="floating" class="input-text-color">Cargo</IonLabel>
-                    <IonInput
-                      type="text"
-                      mode="md"
-                      required={true}
-                      class="pl-2"
-                      placeholder="Barbeiro"
-                      onIonChange={(e: any) => setOffice(e.target.value)} />
-                  </IonItem>
-                </IonCol>
-                <IonCol size="12">
-                  <IonItem>
-                    <IonLabel position="floating" class="input-text-color">Telefone</IonLabel>
-                    <IonInput
-                      type="tel"
-                      mode="md"
-                      required={true}
-                      class="pl-2"
-                      inputMode="tel"
-                      placeholder="(14) 99999-9999"
-                      onIonChange={(e: any) => setPhone(e.target.value)} />
+                      placeholder="30"
+                      onIonChange={(e: any) => setDuration(e.target.value)} />
                   </IonItem>
                 </IonCol>
               </IonRow>
