@@ -35,6 +35,7 @@ import SchedulingCreate from './pages/scheduling/SchedulingCreate';
 import SchedulingEdit from './pages/scheduling/SchedulingEdit';
 import ServicesList from './pages/services/ServicesList';
 import ServiceNew from './pages/services/ServiceNew';
+import ServiceEdit from './pages/services/ServiceEdit';
 import Settings from './pages/settings/Settings';
 import Home from './pages/home/Home';
 
@@ -131,6 +132,7 @@ const App: React.FC = () => (
         <Route path="/reports" component={Reports} />
         <Route path="/serviceslist" component={ServicesList} />
         <Route path="/services/new" component={ServiceNew} />
+        <Route path="/service/edit" component={ServiceEdit} />
         <Route path="/schedulinglist" component={SchedulingList} />
         <Route path="/schedulingcreate" component={SchedulingCreate} />
         <Route path="/schedulingedit" component={SchedulingEdit} />

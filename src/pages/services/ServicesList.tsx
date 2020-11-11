@@ -34,6 +34,7 @@ const ServicesList: React.FC = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     const getServices = async () => {
@@ -46,12 +47,17 @@ const ServicesList: React.FC = () => {
 
   console.log(services)
 
+  const edit = (service: any) => {
+    history.push('/service/edit', service)
+  }
+
    const destroy = async (serviceId: any) => {
     let response = await service.metron.service.destroy({serviceId: serviceId})
 
-    if(response.status = 200) {
+    if(response.status == 200) {
       setToastMessage('Serviço excluído com sucesso')
       setShowToast(true)
+      history.go(0)
     } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)
@@ -89,26 +95,13 @@ const ServicesList: React.FC = () => {
                   </IonCol>
                   <IonFab horizontal="end" vertical="top">
                     <IonButtons>
-                      <IonButton onClick={() => setShowActionSheet(true)}>
-                        <IonIcon icon={ellipsisVertical} />
+                      <IonButton onClick={() => destroy(service.id)}>
+                        <IonIcon icon={trashOutline} />
+                      </IonButton>
+                      <IonButton onClick={() => edit(service)}>
+                        <IonIcon icon={createOutline} />
                       </IonButton>
                     </IonButtons>
-                    <IonActionSheet
-                      isOpen={showActionSheet}
-                      onDidDismiss={() => setShowActionSheet(false)}
-                      buttons={[
-                        {
-                          text: 'Excluir',
-                          icon: trashOutline,
-                          handler: () => {
-                            destroy(service.id)
-                          }
-                        }, {
-                          text: 'Editar',
-                          icon: createOutline
-                        }]}
-                    >
-                    </IonActionSheet>
                   </IonFab>
                 </IonRow>
               </IonCard>

@@ -64,6 +64,7 @@ const ClientNew: React.FC = () => {
       setToastMessage('Cliente cadastrado com sucesso')
       setShowToast(true)
       history.push('/clientslist')
+      history.go(0)
     } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import {
   IonContent,
   IonItem,
@@ -22,18 +22,29 @@ import {
   IonToast
 } from '@ionic/react'
 
+import * as service from '../../service/index'
+
 const EmployeEdit: React.FC = () => {
+  var location:any = useLocation()
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const [firstName, setFirstName] = useState('João')
-  const [lastName, setLastName] = useState('Silva')
-  const [phone, setPhone] = useState('(14) 99999-9999')
-  const [email, setEmail] = useState('joaosilva@gmail.com')
-  const [office, setOffice] = useState('Manicure')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const history = useHistory()
 
-  const edit = () => {
-    if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '' || office.trim() === '') {
+  useEffect(() => {
+    if(location.state) {
+      setFirstName(location.state.name)
+      setLastName(location.state.last_name)
+      setPhone(location.state.phone)
+      setEmail(location.state.email)
+    }
+  }, [location])
+
+  const edit = async () => {
+    if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
@@ -43,9 +54,17 @@ const EmployeEdit: React.FC = () => {
       return setShowToast(true)
     }
 
-    setToastMessage('Funcionário atualizado com sucesso')
-    setShowToast(true)
-    history.push('/employeeslist')
+    let response = await service.metron.employee.put({ employeeId: location.state.id, name: firstName, last_name: lastName, phone: phone, email: email })
+
+    if(response.status == 200){
+      setToastMessage('Funcionário atualizado com sucesso')
+      setShowToast(true)
+      history.push('/employeeslist')
+      history.go(0)
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (
@@ -97,18 +116,6 @@ const EmployeEdit: React.FC = () => {
                       value={email}
                       placeholder="joao.bueno@example.com"
                       onIonChange={(e: any) => setEmail(e.target.value)} />
-                  </IonItem>
-                </IonCol>
-                <IonCol size="12">
-                  <IonItem>
-                    <IonLabel position="floating" class="input-text-color">Cargo</IonLabel>
-                    <IonInput
-                      type="text"
-                      mode="md"
-                      class="pl-2"
-                      value={office}
-                      placeholder="Barbeiro"
-                      onIonChange={(e: any) => setOffice(e.target.value)} />
                   </IonItem>
                 </IonCol>
                 <IonCol size="12">

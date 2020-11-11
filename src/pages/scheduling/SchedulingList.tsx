@@ -93,29 +93,13 @@ const SchedulingList: React.FC = () => {
                   </IonCol>
                   <IonFab horizontal="end" vertical="top">
                     <IonButtons>
+                      <IonButton onClick={() => destroy(scheduling.id)}>
+                        <IonIcon icon={trashOutline} />
+                      </IonButton>
                       <IonButton onClick={() => setShowActionSheet(true)}>
-                        <IonIcon icon={ellipsisVertical} />
+                        <IonIcon icon={createOutline} />
                       </IonButton>
                     </IonButtons>
-                    <IonActionSheet
-                      isOpen={showActionSheet}
-                      onDidDismiss={() => setShowActionSheet(false)}
-                      buttons={[
-                        {
-                          text: 'Excluir',
-                          icon: trashOutline,
-                          handler: () => {
-                            destroy(scheduling.id)
-                          }
-                        }, {
-                          text: 'Editar',
-                          icon: createOutline,
-                          handler: () => {
-                            edit()
-                          }
-                        }]}
-                    >
-                    </IonActionSheet>
                   </IonFab>
                 </IonRow>
               </IonCard>

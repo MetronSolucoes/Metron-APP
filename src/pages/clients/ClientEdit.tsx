@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import {
   IonContent,
   IonItem,
@@ -22,17 +22,30 @@ import {
   IonToast
 } from '@ionic/react'
 
+import * as service from '../../service/index'
+
 const ClientEdit: React.FC = () => {
+  var location:any = useLocation()
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const [firstName, setFirstName] = useState('João')
-  const [lastName, setLastName] = useState('Silva')
-  const [phone, setPhone] = useState('(14) 99999-9999')
-  const [email, setEmail] = useState('joaosilva@gmail.com')
-  const [cpf, setCpf] = useState('47726598704')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [cpf, setCpf] = useState('')
   const history = useHistory()
 
-  const edit = () => {
+  useEffect(() => {
+    if(location.state) {
+      setFirstName(location.state.name)
+      setLastName(location.state.last_name)
+      setPhone(location.state.phone)
+      setEmail(location.state.email)
+      setCpf(location.state.cpf)
+    }
+  }, [location])
+
+  const edit = async () => {
     if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '' || cpf.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
@@ -48,9 +61,17 @@ const ClientEdit: React.FC = () => {
       return setShowToast(true)
     }
 
-    setToastMessage('Cliente atualizado com sucesso')
-    setShowToast(true)
-    history.push('/clientslist')
+    let response = await service.metron.customer.put({ customerId: location.state.id, name: firstName, last_name: lastName, phone: phone, email: email, cpf: cpf })
+
+    if(response.status == 200){
+      setToastMessage('Cliente atualizado com sucesso')
+      setShowToast(true)
+      history.push('/clientslist')
+      history.go(0)
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (

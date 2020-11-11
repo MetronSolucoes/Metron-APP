@@ -46,8 +46,8 @@ const ClientsList: React.FC = () => {
 
   console.log(customers)
 
-  const edit = () => {
-    history.push('/clients/edit')
+  const edit = (customer: any) => {
+    history.push('/clients/edit', customer)
   }
 
   const destroy = async (customerId: any) => {
@@ -56,6 +56,7 @@ const ClientsList: React.FC = () => {
     if(response.status = 200) {
       setToastMessage('Cliente excluído com sucesso')
       setShowToast(true)
+      history.go(0)
     } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)
@@ -94,29 +95,13 @@ const ClientsList: React.FC = () => {
                   </IonCol>
                   <IonFab horizontal="end" vertical="top">
                     <IonButtons>
-                      <IonButton onClick={() => setShowActionSheet(true)}>
-                        <IonIcon icon={ellipsisVertical} />
+                      <IonButton onClick={() => destroy(customer.id)}>
+                        <IonIcon icon={trashOutline} />
+                      </IonButton>
+                      <IonButton onClick={() => edit(customer)}>
+                        <IonIcon icon={createOutline} />
                       </IonButton>
                     </IonButtons>
-                    <IonActionSheet
-                      isOpen={showActionSheet}
-                      onDidDismiss={() => setShowActionSheet(false)}
-                      buttons={[
-                        {
-                          text: 'Excluir',
-                          icon: trashOutline,
-                          handler: () => {
-                            destroy(customer.id)
-                          }
-                        }, {
-                          text: 'Editar',
-                          handler: () => {
-                            edit()
-                          },
-                          icon: createOutline
-                        }]}
-                    >
-                    </IonActionSheet>
                   </IonFab>
                 </IonRow>
               </IonCard>

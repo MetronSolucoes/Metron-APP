@@ -57,6 +57,7 @@ const EmployeNew: React.FC = () => {
       setToastMessage('Funcionário cadastrado com sucesso')
       setShowToast(true)
       history.push('/employeeslist')
+      history.go(0)
     } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import {
   IonContent,
   IonItem,
@@ -24,7 +24,8 @@ import {
 
 import * as service from '../../service/index'
 
-const EmployeNew: React.FC = () => {
+const ServiceEdit: React.FC = () => {
+  var location:any = useLocation()
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
   const [name, setName] = useState('')
@@ -32,8 +33,17 @@ const EmployeNew: React.FC = () => {
   const [duration, setDuration] = useState('')
   const history = useHistory()
 
-  const create = async () => {
-    if (name.trim() === '' || description.trim() === '' || duration.trim() === '') {
+  useEffect(() => {
+    if(location.state) {
+      setName(location.state.name)
+      setDescription(location.state.description)
+      setDuration(location.state.duration)
+    }
+  }, [location])
+
+  const edit = async () => {
+  	console.log(duration)
+    if (name.trim() === '' || description.trim() === '' || String(duration).trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
@@ -43,20 +53,14 @@ const EmployeNew: React.FC = () => {
       return setShowToast(true)
     }
 
-    let params = {
-      name: name,
-      description: description,
-      duration: duration
-    }
+    let response = await service.metron.service.put({ serviceId: location.state.id, name: name, description: description, duration: duration })
 
-    try{
-      let response = await service.metron.service.post(params)
-
-      setToastMessage('Serviço cadastrado com sucesso')
+    if(response.status == 200){
+      setToastMessage('Serviço atualizado com sucesso')
       setShowToast(true)
       history.push('/serviceslist')
       history.go(0)
-    } catch(e) {
+    } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)
     }
@@ -65,12 +69,12 @@ const EmployeNew: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton auto-hide="false"></IonMenuButton>
-          </IonButtons>
-          <IonTitle class="text-center">Cadastrar Serviço</IonTitle>
-        </IonToolbar>
+          <IonToolbar>
+              <IonButtons slot="start">
+                  <IonMenuButton auto-hide="false"></IonMenuButton>
+              </IonButtons>
+              <IonTitle class="text-center">Editar Serviço</IonTitle>
+          </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonGrid>
@@ -83,7 +87,7 @@ const EmployeNew: React.FC = () => {
                     <IonInput
                       type="text"
                       mode="md"
-                      required={true}
+                      value={name}
                       class="pl-2"
                       placeholder="Corte de cabelo"
                       onIonChange={(e: any) => setName(e.target.value)} />
@@ -95,7 +99,7 @@ const EmployeNew: React.FC = () => {
                     <IonInput
                       type="text"
                       mode="md"
-                      required={true}
+                      value={description}
                       class="pl-2"
                       placeholder="Corta o cabelo"
                       onIonChange={(e: any) => setDescription(e.target.value)} />
@@ -107,7 +111,7 @@ const EmployeNew: React.FC = () => {
                     <IonInput
                       type="number"
                       mode="md"
-                      required={true}
+                      value={duration}
                       class="pl-2"
                       placeholder="30"
                       onIonChange={(e: any) => setDuration(e.target.value)} />
@@ -116,9 +120,9 @@ const EmployeNew: React.FC = () => {
               </IonRow>
             </IonCardHeader>
           </IonCard>
-          <IonFab horizontal="end" vertical="bottom">
-            <IonButton onClick={create} shape="round">Cadastrar</IonButton>
-          </IonFab>
+         <IonFab horizontal="end" vertical="bottom">
+            <IonButton onClick={edit} shape="round">Salvar</IonButton>
+        </IonFab>
         </IonGrid>
         <IonToast
           isOpen={showToast}
@@ -131,4 +135,4 @@ const EmployeNew: React.FC = () => {
   )
 }
 
-export default EmployeNew
+export default ServiceEdit

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import {
     IonContent,
     IonPage,
@@ -27,58 +28,94 @@ import {
 } from '@ionic/react';
 import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ionicons/icons';
 
+import * as service from '../../service/index'
+
 const EmployeesFilter: React.FC = () => {
-    const [showActionSheet, setShowActionSheet] = useState(false);
-    return (
-        <IonPage>
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const history = useHistory()
 
-            <IonHeader>
-                <IonToolbar>
-                    <IonButtons slot="start">
-                        <IonMenuButton auto-hide="false"></IonMenuButton>
-                    </IonButtons>
-                    <IonButtons slot="primary">
-                        <IonButton>
-                            <IonIcon icon={filter} />
-                        </IonButton>
-                    </IonButtons>
-                    <IonTitle class="text-center">Funcionários</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+  const filtering = async () => {
+    let names = name.split(" ")
+    let response = await service.metron.employee.get({employeeId: '', page: '1', perPage: '100', name: names[0], last_name: names[1], email: email, phone:phone })
 
-            <IonContent>
-                <IonGrid>
-                    <IonCard>
-                        <IonRow>
-                            <IonCol>
-                                <IonCardHeader>
-                                    <IonItem>
-                                        <IonLabel position="floating">Nome</IonLabel>
-                                        <IonInput></IonInput>
-                                    </IonItem>
-                                    <IonItem>
-                                        <IonLabel position="floating">Cargo</IonLabel>
-                                        <IonInput></IonInput>
-                                    </IonItem>
-                                    <IonItem>
-                                        <IonLabel position="floating">CPF</IonLabel>
-                                        <IonInput></IonInput>
-                                    </IonItem>
-                                </IonCardHeader>
-                            </IonCol>
-                        </IonRow>
-                    </IonCard>
+    if(response.status == 200) {
+      //ver o que fazer apos o filtro retornar
+      
+    }
+  }
 
-                    <IonFab horizontal="end" vertical="bottom">
-                        <IonButton shape="round" routerLink="/employeeslist">
-                           <IonLabel>FILTRAR</IonLabel>
-                        </IonButton>
-                    </IonFab>
+  const [showActionSheet, setShowActionSheet] = useState(false);
+  return (
+    <IonPage>
 
-                </IonGrid>
-            </IonContent>
-        </IonPage>
-    );
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton auto-hide="false"></IonMenuButton>
+          </IonButtons>
+          <IonButtons slot="primary">
+            <IonButton>
+              <IonIcon icon={filter} />
+            </IonButton>
+          </IonButtons>
+          <IonTitle class="text-center">Funcionários</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent>
+        <IonGrid>
+          <IonCard>
+            <IonRow>
+              <IonCol>
+                <IonCardHeader>
+                  <IonItem>
+                    <IonLabel position="floating">Nome</IonLabel>
+                    <IonInput
+                      type="text"
+                      mode="md"
+                      class="pl-2"
+                      placeholder="Nome"
+                      onIonChange={(e: any) => setName(e.target.value)} />
+                  </IonItem>
+
+                  <IonItem>
+                    <IonLabel position="floating">E-mail</IonLabel>
+                    <IonInput
+                      type="email"
+                      mode="md"
+                      class="pl-2"
+                      placeholder="E-mail"
+                      onIonChange={(e: any) => setEmail(e.target.value)} />
+                  </IonItem>
+                  <IonItem>
+                    <IonLabel position="floating">Telefone</IonLabel>
+                    <IonInput
+                      type="tel"
+                      mode="md"
+                      class="pl-2"
+                      inputMode="tel"
+                      placeholder="(14) 99999-9999"
+                      onIonChange={(e: any) => setPhone(e.target.value)} />
+                  </IonItem>
+                </IonCardHeader>
+              </IonCol>
+            </IonRow>
+          </IonCard>
+
+          <IonFab horizontal="end" vertical="bottom">
+            <IonButton shape="round" onClick={filtering}>
+              <IonLabel>FILTRAR</IonLabel>
+            </IonButton>
+          </IonFab>
+
+        </IonGrid>
+      </IonContent>
+    </IonPage>
+  );
 };
 
 export default EmployeesFilter
