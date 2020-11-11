@@ -35,7 +35,7 @@ const EmployeesList: React.FC = () => {
   const [employees, setEmployees] = useState([])
   const history = useHistory()
 
-   useEffect(() => {
+  useEffect(() => {
     const getEmployees = async () => {
       let response = await service.metron.employee.get({employeeId: '', page: '1', perPage: '100'})
       setEmployees(response && response.data && response.data.employes)
@@ -50,9 +50,16 @@ const EmployeesList: React.FC = () => {
     history.push('/employes/edit')
   }
 
-  const destroy = () => {
-    setToastMessage('Funcionário excluído com sucesso')
-    setShowToast(true)
+  const destroy = async (employeeId: any) => {
+    let response = await service.metron.employee.destroy({employeeId: employeeId})
+
+    if(response.status = 200) {
+      setToastMessage('Funcionário excluído com sucesso')
+      setShowToast(true)
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (
@@ -99,7 +106,7 @@ const EmployeesList: React.FC = () => {
                           text: 'Excluir',
                           icon: trashOutline,
                           handler: () => {
-                            destroy()
+                            destroy(employee.id)
                           }
                         }, {
                           text: 'Editar',

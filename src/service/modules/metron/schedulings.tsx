@@ -6,6 +6,11 @@ const get = async ({ schedulingId = '', ...params }) => {
   return await metronAPI.get(`/schedulings/${schedulingId}`, { params })
 }
 
+const destroy = async ({ schedulingId = '' }) => {
+  return await metronAPI.delete(`/schedulings/${schedulingId}`)
+}
+
 export default {
-  get
+  get,
+  destroy
 }

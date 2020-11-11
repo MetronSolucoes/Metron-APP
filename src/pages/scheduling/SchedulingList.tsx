@@ -50,9 +50,16 @@ const SchedulingList: React.FC = () => {
     history.push('/schedulingedit')
   }
 
-  const destroy = () => {
-    setToastMessage('Agendamento excluído com sucesso')
-    setShowToast(true)
+  const destroy = async (schedulingId: any) => {
+    let response = await service.metron.scheduling.destroy({schedulingId: schedulingId})
+
+    if(response.status = 200) {
+      setToastMessage('Agendamento excluído com sucesso')
+      setShowToast(true)
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (
@@ -98,7 +105,7 @@ const SchedulingList: React.FC = () => {
                           text: 'Excluir',
                           icon: trashOutline,
                           handler: () => {
-                            destroy()
+                            destroy(scheduling.id)
                           }
                         }, {
                           text: 'Editar',

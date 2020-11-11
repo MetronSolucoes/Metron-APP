@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   IonContent,
   IonPage,
@@ -9,9 +10,11 @@ import {
   IonToolbar,
   IonTitle,
   IonCard,
+  IonToast,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonCardContent,
   IonIcon,
   IonButton,
   IonMenuButton,
@@ -26,6 +29,8 @@ import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ioni
 import * as service from '../../service/index'
 
 const ServicesList: React.FC = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('')
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState([])
@@ -41,6 +46,17 @@ const ServicesList: React.FC = () => {
 
   console.log(services)
 
+   const destroy = async (serviceId: any) => {
+    let response = await service.metron.service.destroy({serviceId: serviceId})
+
+    if(response.status = 200) {
+      setToastMessage('Serviço excluído com sucesso')
+      setShowToast(true)
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
+  }
 
   return (
     <IonPage>
@@ -83,7 +99,10 @@ const ServicesList: React.FC = () => {
                       buttons={[
                         {
                           text: 'Excluir',
-                          icon: trashOutline
+                          icon: trashOutline,
+                          handler: () => {
+                            destroy(service.id)
+                          }
                         }, {
                           text: 'Editar',
                           icon: createOutline

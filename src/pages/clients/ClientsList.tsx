@@ -50,9 +50,16 @@ const ClientsList: React.FC = () => {
     history.push('/clients/edit')
   }
 
-  const destroy = () => {
-    setToastMessage('Cliente excluído com sucesso')
-    setShowToast(true)
+  const destroy = async (customerId: any) => {
+    let response = await service.metron.customer.destroy({customerId: customerId})
+
+    if(response.status = 200) {
+      setToastMessage('Cliente excluído com sucesso')
+      setShowToast(true)
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (
@@ -99,7 +106,7 @@ const ClientsList: React.FC = () => {
                           text: 'Excluir',
                           icon: trashOutline,
                           handler: () => {
-                            destroy()
+                            destroy(customer.id)
                           }
                         }, {
                           text: 'Editar',

@@ -32,27 +32,28 @@ const EmployeNew: React.FC = () => {
   const [duration, setDuration] = useState('')
   const history = useHistory()
 
-  const create = () => {
+  const create = async () => {
     if (name.trim() === '' || description.trim() === '' || duration.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
 
-    const params = {
+    let params = {
       name: name,
       description: description,
       duration: duration
     }
 
-    //let response = await service.metron.service.post(params)
+    let response = await service.metron.service.post(params)
 
-    //console.log(Response)
-
-    //if(response.code == 200) {
-    //  setToastMessage('Serviço cadastrado com sucesso')
-    //  setShowToast(true)
-    //  history.push('/serviceslist')
-    //}
+    if(response.status == 201){
+      setToastMessage('Serviço cadastrado com sucesso')
+      setShowToast(true)
+      history.push('/serviceslist')
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (

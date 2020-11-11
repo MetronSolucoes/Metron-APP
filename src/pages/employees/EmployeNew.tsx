@@ -22,18 +22,19 @@ import {
   IonToast
 } from '@ionic/react'
 
+import * as service from '../../service/index'
+
 const EmployeNew: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
-  const [office, setOffice] = useState('')
   const [email, setEmail] = useState('')
   const history = useHistory()
 
-  const create = () => {
-    if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '' || office.trim() === '') {
+  const create = async () => {
+    if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
@@ -43,9 +44,23 @@ const EmployeNew: React.FC = () => {
       return setShowToast(true)
     }
 
-    setToastMessage('Funcionário cadastrado com sucesso')
-    setShowToast(true)
-    history.push('/employeeslist')
+    let params = {
+      name: firstName,
+      last_name: lastName,
+      phone: phone,
+      email: email
+    }
+
+    let response = await service.metron.employee.post(params)
+
+    if(response.status == 201){
+      setToastMessage('Funcionário cadastrado com sucesso')
+      setShowToast(true)
+      history.push('/employeeslist')
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (
@@ -97,18 +112,6 @@ const EmployeNew: React.FC = () => {
                       class="pl-2"
                       placeholder="joao.bueno@example.com"
                       onIonChange={(e: any) => setEmail(e.target.value)} />
-                  </IonItem>
-                </IonCol>
-                <IonCol size="12">
-                  <IonItem>
-                    <IonLabel position="floating" class="input-text-color">Cargo</IonLabel>
-                    <IonInput
-                      type="text"
-                      mode="md"
-                      required={true}
-                      class="pl-2"
-                      placeholder="Barbeiro"
-                      onIonChange={(e: any) => setOffice(e.target.value)} />
                   </IonItem>
                 </IonCol>
                 <IonCol size="12">

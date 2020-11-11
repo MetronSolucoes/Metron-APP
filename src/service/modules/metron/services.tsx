@@ -6,11 +6,16 @@ const get = async ({ serviceId = '', ...params }) => {
   return await metronAPI.get(`/services/${serviceId}`, { params })
 }
 
-//const post = async (params) => {
-//	return await metronAPI.post('/services', { params })
-//}
+const post = async ({ ...service }) => {
+  return await metronAPI.post('/services', { service })
+}
 
+const destroy = async ({ serviceId = '' }) => {
+  return await metronAPI.delete(`/services/${serviceId}`)
+}
 
 export default {
-  get
+  get,
+  post,
+  destroy
 }

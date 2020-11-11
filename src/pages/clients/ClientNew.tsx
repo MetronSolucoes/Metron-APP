@@ -22,6 +22,8 @@ import {
   IonToast
 } from '@ionic/react'
 
+import * as service from '../../service/index'
+
 const ClientNew: React.FC = () => {
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
@@ -32,7 +34,7 @@ const ClientNew: React.FC = () => {
   const [cpf, setCpf] = useState('')
   const history = useHistory()
 
-  const create = () => {
+  const create = async () => {
     if (firstName.trim() === '' || lastName.trim() === '' || phone.trim() === '' || email.trim() === '' || cpf.trim() === '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
@@ -48,9 +50,24 @@ const ClientNew: React.FC = () => {
       return setShowToast(true)
     }
 
-    setToastMessage('Cliente cadastrado com sucesso')
-    setShowToast(true)
-    history.push('/clientslist')
+    let params = {
+      name: firstName,
+      last_name: lastName,
+      phone: phone,
+      email: email,
+      cpf: cpf
+    }
+
+    let response = await service.metron.customer.post(params)
+
+    if(response.status == 201){
+      setToastMessage('Cliente cadastrado com sucesso')
+      setShowToast(true)
+      history.push('/clientslist')
+    } else {
+      setToastMessage('Algo de errado aconteceu')
+      setShowToast(true)
+    }
   }
 
   return (
