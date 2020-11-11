@@ -29,8 +29,7 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "build": "ionic build",
-    "serve": "ionic build",
+    "serve": "ionic serve",
     "start": "npm run serve"
   },
   "eslintConfig": {
