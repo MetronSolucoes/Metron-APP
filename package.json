@@ -30,7 +30,7 @@
   },
   "scripts": {
     "serve": "ionic serve",
-    "start": "npm run serve"
+    "start": "ionic serve"
   },
   "eslintConfig": {
     "extends": "react-app"
