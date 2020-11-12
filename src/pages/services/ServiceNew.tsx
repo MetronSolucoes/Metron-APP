@@ -49,14 +49,14 @@ const EmployeNew: React.FC = () => {
       duration: duration
     }
 
-    try{
+    try {
       let response = await service.metron.service.post(params)
 
       setToastMessage('Serviço cadastrado com sucesso')
       setShowToast(true)
       history.push('/serviceslist')
       history.go(0)
-    } catch(e) {
+    } catch (e) {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)
     }
@@ -107,6 +107,7 @@ const EmployeNew: React.FC = () => {
                     <IonInput
                       type="number"
                       mode="md"
+                      inputMode="numeric"
                       required={true}
                       class="pl-2"
                       placeholder="30"

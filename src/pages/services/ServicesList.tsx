@@ -34,30 +34,34 @@ const ServicesList: React.FC = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState([])
+  const [refresh, setRefresh] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
     const getServices = async () => {
-      let response = await service.metron.service.get({serviceId: '', page: '1', perPage: '100'})
+      let response = await service.metron.service.get({ serviceId: '', page: '1', perPage: '100' })
       setServices(response && response.data && response.data.services)
     }
-    
-    getServices()
-  }, [])
 
-  console.log(services)
+    getServices()
+  }, [refresh])
+
+  const doRefresh = () => {
+    setRefresh(true)
+    setRefresh(false)
+  }
 
   const edit = (service: any) => {
     history.push('/service/edit', service)
   }
 
-   const destroy = async (serviceId: any) => {
-    let response = await service.metron.service.destroy({serviceId: serviceId})
+  const destroy = async (serviceId: any) => {
+    let response = await service.metron.service.destroy({ serviceId: serviceId })
 
-    if(response.status == 200) {
+    if (response.status == 200) {
       setToastMessage('Serviço excluído com sucesso')
       setShowToast(true)
-      history.go(0)
+      doRefresh()
     } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)
@@ -106,7 +110,7 @@ const ServicesList: React.FC = () => {
                 </IonRow>
               </IonCard>
             ))}
-          
+
           </IonList>
 
           <IonFab horizontal="end" vertical="bottom">
