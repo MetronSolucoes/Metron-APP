@@ -19,7 +19,7 @@ import {
   IonMenuButton
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { book, person, people, settings, document, briefcase, home, exit } from 'ionicons/icons';
+import { book, person, people, settings, document, briefcase, home, exit, key } from 'ionicons/icons';
 import Login from './pages/login/Login';
 import Register from './pages/login/Register';
 import ClientsList from './pages/clients/ClientsList';
@@ -33,6 +33,9 @@ import Reports from './pages/reports/Reports';
 import SchedulingList from './pages/scheduling/SchedulingList';
 import SchedulingCreate from './pages/scheduling/SchedulingCreate';
 import SchedulingEdit from './pages/scheduling/SchedulingEdit';
+import UsersList from './pages/users/UsersList';
+import UserNew from './pages/users/UserNew';
+import UserEdit from './pages/users/UserEdit';
 import ServicesList from './pages/services/ServicesList';
 import ServiceNew from './pages/services/ServiceNew';
 import ServiceEdit from './pages/services/ServiceEdit';
@@ -82,6 +85,10 @@ const App: React.FC = () => (
             <IonIcon icon={person} slot="start"></IonIcon>
             <IonLabel>Clientes</IonLabel>
           </IonItem>
+          <IonItem routerLink='/userslist'>
+            <IonIcon icon={key} slot="start"></IonIcon>
+            <IonLabel>Usuários</IonLabel>
+          </IonItem>
           <IonItem routerLink='/employeeslist'>
             <IonIcon icon={people} slot="start"></IonIcon>
             <IonLabel>Funcionários</IonLabel>
@@ -89,14 +96,6 @@ const App: React.FC = () => (
           <IonItem routerLink="/serviceslist">
             <IonIcon icon={briefcase} slot="start"></IonIcon>
             <IonLabel>Serviços</IonLabel>
-          </IonItem>
-          <IonItem routerLink="/reports">
-            <IonIcon icon={document} slot="start"></IonIcon>
-            <IonLabel>Relatórios</IonLabel>
-          </IonItem>
-          <IonItem routerLink="/settings">
-            <IonIcon icon={settings} slot="start"></IonIcon>
-            <IonLabel>Configurações</IonLabel>
           </IonItem>
           <IonItem routerLink="/login">
             <IonIcon icon={exit} slot="start"></IonIcon>
@@ -130,6 +129,9 @@ const App: React.FC = () => (
         <Route path="/employes/edit" component={EmployeEdit} />
         <Route path="/employeesfilter" component={EmployeesFilter} />
         <Route path="/reports" component={Reports} />
+        <Route path="/userslist" component={UsersList} />
+        <Route path="/users/new" component={UserNew} />
+        <Route path="/user/edit" component={UserEdit} />
         <Route path="/serviceslist" component={ServicesList} />
         <Route path="/services/new" component={ServiceNew} />
         <Route path="/service/edit" component={ServiceEdit} />

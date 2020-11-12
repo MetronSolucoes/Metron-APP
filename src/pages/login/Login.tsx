@@ -80,18 +80,6 @@ const Login: React.FC = () => {
             <IonCol size="12" class="px-3">
               <IonButton color="primary" mode="md" expand="block" onClick={login}>Entrar</IonButton>
             </IonCol>
-            <IonCol size="12" class="px-3">
-              <p>É novo aqui? <Link to="/register">Criar conta</Link></p>
-            </IonCol>
-            <IonCol size="12" class="px-3">
-              <IonRouterLink onClick={forgotPassword}>Esqueceu a senha?</IonRouterLink>
-              <IonToast
-                isOpen={showToast}
-                onDidDismiss={() => setShowToast(false)}
-                message={toastMessage}
-                duration={2000}
-              />
-            </IonCol>
           </IonRow>
         </IonGrid>
       </IonContent>
