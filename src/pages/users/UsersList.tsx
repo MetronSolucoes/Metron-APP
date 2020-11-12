@@ -18,44 +18,46 @@ import {
   IonIcon,
   IonButton,
   IonMenuButton,
-  IonFabButton,
   IonFab,
-  IonActionSheet,
+  IonFabButton,
   IonButtons,
+  IonActionSheet,
   IonList
 } from '@ionic/react';
-import { filter, add, createOutline, trashOutline, ellipsisVertical } from 'ionicons/icons';
+import { filter, add, ellipsisVertical, trashOutline, createOutline } from 'ionicons/icons';
 
 import * as service from '../../service/index'
 
-const SchedulingList: React.FC = () => {
+const UsersList: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('')
   const [showActionSheet, setShowActionSheet] = useState(false);
-  const [schedulings, setSchedulings] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [users, setUsers] = useState([])
   const history = useHistory()
 
   useEffect(() => {
-    const getSchedulings = async () => {
-      let response = await service.metron.scheduling.get({schedulingId: '', page: '1', perPage: '100'})
-      setSchedulings(response && response.data && response.data.schedulings)
+    const getUsers = async () => {
+      let response = await service.metron.user.get({userId: '', page: '1', perPage: '100'})
+      setUsers(response && response.data && response.data.users)
     }
     
-    getSchedulings()
+    getUsers()
   }, [])
 
-  console.log(schedulings)
+  console.log(users)
 
-  const edit = () => {
-    history.push('/schedulingedit')
+  const edit = (user: any) => {
+    history.push('/user/edit', user)
   }
 
-  const destroy = async (schedulingId: any) => {
-    let response = await service.metron.scheduling.destroy({schedulingId: schedulingId})
+   const destroy = async (user: any) => {
+    let response = await service.metron.user.destroy({userId: user})
 
-    if(response.status = 200) {
-      setToastMessage('Agendamento excluído com sucesso')
+    if(response.status == 200) {
+      setToastMessage('Usuário excluído com sucesso')
       setShowToast(true)
+      history.go(0)
     } else {
       setToastMessage('Algo de errado aconteceu')
       setShowToast(true)
@@ -64,6 +66,7 @@ const SchedulingList: React.FC = () => {
 
   return (
     <IonPage>
+
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -74,49 +77,48 @@ const SchedulingList: React.FC = () => {
               <IonIcon icon={filter} />
             </IonButton>
           </IonButtons>
-          <IonTitle class="text-center">Agendamentos</IonTitle>
+          <IonTitle class="text-center">Usuários</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent>
         <IonGrid>
           <IonList>
-            {schedulings && schedulings.map((scheduling) => (
-              <IonCard key={scheduling.id}>
+            {users && users.map((user) => (
+              <IonCard key={user.id}>
                 <IonRow>
                   <IonCol >
                     <IonCardHeader>
-                      <IonCardTitle>{scheduling.service.name}</IonCardTitle>
-                      <IonCardSubtitle>Cliente:{scheduling.customer.name}</IonCardSubtitle>
-                      <IonCardSubtitle>Funcionário:{scheduling.employe.name}</IonCardSubtitle>
-                      <IonCardSubtitle>{(new Date(scheduling.start.replace(".000Z", ""))).toLocaleString()} - {(new Date(scheduling.finish.replace(".000Z", ""))).toLocaleString()}</IonCardSubtitle>
+                      <IonCardTitle>{user.name}</IonCardTitle>
+                      <IonCardSubtitle>{user.email}</IonCardSubtitle>
                     </IonCardHeader>
                   </IonCol>
                   <IonFab horizontal="end" vertical="top">
                     <IonButtons>
-                      <IonButton onClick={() => destroy(scheduling.id)}>
+                      <IonButton onClick={() => destroy(user.id)}>
                         <IonIcon icon={trashOutline} />
+                      </IonButton>
+                      <IonButton onClick={() => edit(user)}>
+                        <IonIcon icon={createOutline} />
                       </IonButton>
                     </IonButtons>
                   </IonFab>
                 </IonRow>
               </IonCard>
             ))}
+          
           </IonList>
+
           <IonFab horizontal="end" vertical="bottom">
-            <IonFabButton routerLink="/schedulingcreate">
+            <IonFabButton routerLink="/users/new">
               <IonIcon icon={add} />
             </IonFabButton>
           </IonFab>
+
         </IonGrid>
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message={toastMessage}
-          duration={2000}
-        />
       </IonContent>
     </IonPage>
   );
 };
 
-export default SchedulingList
+export default UsersList

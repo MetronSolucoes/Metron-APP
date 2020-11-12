@@ -45,11 +45,6 @@ const ClientNew: React.FC = () => {
       return setShowToast(true)
     }
 
-    if(phone.trim().length < 14 || phone.trim().length > 15) {
-      setToastMessage('Telefone inválido')
-      return setShowToast(true)
-    }
-
     let params = {
       name: firstName,
       last_name: lastName,
