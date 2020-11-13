@@ -68,6 +68,13 @@ const ServicesList: React.FC = () => {
     }
   }
 
+  const convertToDecimal = (price: any) => {
+    if(price == null) {
+      return
+    }
+    return price.toFixed(2).replace('.', ',')
+  }
+
   return (
     <IonPage>
 
@@ -95,6 +102,7 @@ const ServicesList: React.FC = () => {
                     <IonCardHeader>
                       <IonCardTitle>{service.name}</IonCardTitle>
                       <IonCardSubtitle>{service.duration} minutos</IonCardSubtitle>
+                      <IonCardSubtitle>R${convertToDecimal(service.price)}</IonCardSubtitle>
                     </IonCardHeader>
                   </IonCol>
                   <IonFab horizontal="end" vertical="top">

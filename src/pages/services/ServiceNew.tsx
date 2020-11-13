@@ -30,10 +30,11 @@ const ServiceNew: React.FC = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [duration, setDuration] = useState('')
+  const [price, setPrice] = useState('')
   const history = useHistory()
 
   const create = async () => {
-    if (name.trim() === '' || description.trim() === '' || duration.trim() === '') {
+    if (name.trim() === '' || description.trim() === '' || duration.trim() === '', price.trim() == '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
@@ -46,7 +47,8 @@ const ServiceNew: React.FC = () => {
     let params = {
       name: name,
       description: description,
-      duration: duration
+      duration: duration,
+      price: price.replace(',', '.')
     }
 
     try {
@@ -112,6 +114,19 @@ const ServiceNew: React.FC = () => {
                       class="pl-2"
                       placeholder="30"
                       onIonChange={(e: any) => setDuration(e.target.value)} />
+                  </IonItem>
+                </IonCol>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonLabel position="floating" class="input-text-color">Valor</IonLabel>
+                    <IonInput
+                      type="text"
+                      mode="md"
+                      inputMode="numeric"
+                      required={true}
+                      class="pl-2"
+                      placeholder="10,00"
+                      onIonChange={(e: any) => setPrice(e.target.value)} />
                   </IonItem>
                 </IonCol>
               </IonRow>

@@ -31,6 +31,7 @@ const ServiceEdit: React.FC = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [duration, setDuration] = useState('')
+  const [price, setPrice] = useState('')
   const history = useHistory()
 
   useEffect(() => {
@@ -38,12 +39,13 @@ const ServiceEdit: React.FC = () => {
       setName(location.state.name)
       setDescription(location.state.description)
       setDuration(location.state.duration)
+      setPrice(location.state.price.toFixed(2))
     }
   }, [location])
 
   const edit = async () => {
   	console.log(duration)
-    if (name.trim() === '' || description.trim() === '' || String(duration).trim() === '') {
+    if (name.trim() === '' || description.trim() === '' || String(duration).trim() === '', price.trim() == '') {
       setToastMessage('Preencha todos os campos')
       return setShowToast(true)
     }
@@ -53,7 +55,7 @@ const ServiceEdit: React.FC = () => {
       return setShowToast(true)
     }
 
-    let response = await service.metron.service.put({ serviceId: location.state.id, name: name, description: description, duration: duration })
+    let response = await service.metron.service.put({ serviceId: location.state.id, name: name, description: description, duration: duration, price: price.replace(',', '.') })
 
     if(response.status == 200){
       setToastMessage('Serviço atualizado com sucesso')
@@ -115,6 +117,18 @@ const ServiceEdit: React.FC = () => {
                       class="pl-2"
                       placeholder="30"
                       onIonChange={(e: any) => setDuration(e.target.value)} />
+                  </IonItem>
+                </IonCol>
+                <IonCol size="12">
+                  <IonItem>
+                    <IonLabel position="floating" class="input-text-color">Preço</IonLabel>
+                    <IonInput
+                      type="number"
+                      mode="md"
+                      value={price}
+                      class="pl-2"
+                      placeholder="30"
+                      onIonChange={(e: any) => setPrice(e.target.value)} />
                   </IonItem>
                 </IonCol>
               </IonRow>
