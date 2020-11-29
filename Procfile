@@ -1,1 +1,1 @@
-web: npm install && ionic build && npm start
+web: npm start
