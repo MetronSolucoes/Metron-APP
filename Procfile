@@ -1,1 +1,1 @@
-web: ionic serve --port 5000 --nobrowser --noliveredload --noopen
+web: npm start
