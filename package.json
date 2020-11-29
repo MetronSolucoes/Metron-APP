@@ -30,9 +30,7 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "build": "ionic build",
-    "serve": "ionic build",
-    "start": "npm run serve"
+    "start": "ionic serve"
   },
   "eslintConfig": {
     "extends": "react-app"
