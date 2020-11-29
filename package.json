@@ -29,6 +29,7 @@
     "react-router-dom": "^5.1.2",
     "typescript": "3.8.3",
     "@ionic/app-scripts": "^3.2.4",
+    "@ionic/cli": "6.12.2",
     "react-scripts": "3.4.1"
   },
   "eslintConfig": {
