@@ -35,6 +35,9 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "scripts": {
+    "start": "node server.js"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
