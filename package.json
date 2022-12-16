@@ -21,7 +21,7 @@
     "firebase": "^7.14.3",
     "ionicons": "^5.0.0",
     "natives": "^1.1.6",
-    "express": "~4.4.3",
+    "express": "~4.17.3",
     "query-string": "^6.8.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
